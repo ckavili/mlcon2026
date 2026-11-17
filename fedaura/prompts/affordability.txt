@@ -1,0 +1,1 @@
+Use the affordability calculator for this synthetic example: gross annual income $102,000, monthly debt payments $2,400, down payment $80,000, interest rate 6.5%, and a 30-year loan. Give the estimated maximum loan, purchase price and monthly payment. Keep it brief.

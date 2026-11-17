@@ -1,0 +1,10 @@
+__pycache__/
+fedaura/.venv/
+fedaura/.tools/
+fedaura/.env
+fedaura/runtime/
+fedaura/app/node_modules/
+fedaura/app/**/node_modules/
+fedaura/app/**/.venv/
+fedaura/app/**/dist/
+fedaura/app/**/.turbo/

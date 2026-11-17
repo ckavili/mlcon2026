@@ -1,0 +1,23 @@
+{
+  "products": {
+    "required_tool": "product_info",
+    "conventional_30_rate_pct": 6.5,
+    "conventional_15_rate_pct": 5.75,
+    "fha_rate_pct": 6.25
+  },
+  "affordability": {
+    "required_tool": "affordability_calc",
+    "inputs": {"gross_annual_income": 102000, "monthly_debts": 2400, "down_payment": 80000, "interest_rate": 6.5, "loan_term_years": 30},
+    "max_loan_amount": 198554.58,
+    "estimated_purchase_price": 278554.58,
+    "estimated_monthly_payment": 1255.0,
+    "dti_ratio_pct": 43.0
+  },
+  "risk": {
+    "required_tools": ["calculate_dti", "calculate_ltv", "evaluate_credit_risk"],
+    "dti": {"value": 28.2, "rating": "Low"},
+    "ltv": {"value": 80.0, "rating": "Medium"},
+    "credit": {"value": 742, "rating": "Low", "source": "self_reported"}
+  },
+  "seed": {"borrowers": 10, "active_applications": 10, "historical_loans": 28, "total_applications": 38}
+}

@@ -1,0 +1,1 @@
+Show my underwriting queue. List only the application count and each application's actual ID and borrower name. Do not inspect individual details, calculate ratios, assign risk ratings, or change anything.

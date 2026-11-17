@@ -1,0 +1,11 @@
+# Local configuration and generated files
+.env
+.venv/
+.tools/
+runtime/
+__pycache__/
+*.pyc
+node_modules/
+dist/
+.turbo/
+.DS_Store

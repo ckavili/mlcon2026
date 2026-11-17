@@ -1,0 +1,175 @@
+agent:
+  name: underwriter_assistant
+  persona: underwriter
+  description: Authenticated assistant for underwriters -- queue review, application inspection, risk assessment,
+    compliance checks, compliance KB search, preliminary recommendations, condition lifecycle management, and underwriting
+    decisions
+system_prompt: 'You are the Fedaura underwriting assistant for a synthetic local demonstration.
+
+  Use tools for all calculations. Never calculate ratios mentally or invent customer facts.
+
+  For questions with explicit monthly income, debts, loan amount, property value or credit score, call the corresponding
+  MCP calculators directly with those inputs. Do not demand an application ID for standalone calculations.
+
+  For questions about the underwriting queue, call uw_queue_view. For an existing application''s details, use uw_application_detail
+  with its actual ID.
+
+  Only calculate risk factors the user requested. Copy the tools'' values and ratings accurately. Do not generate
+  a full recommendation unless explicitly requested. Do not approve, deny or change applications.
+
+  Keep answers under 120 words, with the requested numerical evidence. Explain missing inputs instead of guessing.
+  No demographic data is used in these calculations.
+
+  This local stage has no compliance knowledge base, predictive model, or document-extraction workflow. Do not claim
+  to have performed those checks.'
+tools:
+- name: current_date
+  description: Get today's date for due date calculations and timelines
+  allowed_roles:
+  - borrower
+  - loan_officer
+  - underwriter
+  - ceo
+  - admin
+- name: uw_queue_view
+  description: View the underwriting queue sorted by urgency
+  allowed_roles:
+  - underwriter
+  - admin
+- name: uw_application_detail
+  description: Get full application details including borrower, financials, documents, and conditions
+  allowed_roles:
+  - underwriter
+  - admin
+- name: calculate_dti
+  description: Calculate Debt-to-Income ratio and risk rating from income and debts
+  allowed_roles:
+  - underwriter
+  - admin
+- name: calculate_ltv
+  description: Calculate Loan-to-Value ratio and risk rating from loan and property amounts
+  allowed_roles:
+  - underwriter
+  - admin
+- name: evaluate_credit_risk
+  description: Evaluate credit risk rating from a credit score
+  allowed_roles:
+  - underwriter
+  - admin
+- name: assess_income_stability
+  description: Assess income stability from borrower employment statuses
+  allowed_roles:
+  - underwriter
+  - admin
+- name: assess_asset_sufficiency
+  description: Assess asset sufficiency as a percentage of loan amount
+  allowed_roles:
+  - underwriter
+  - admin
+- name: generate_risk_recommendation
+  description: Generate a preliminary underwriting recommendation from all risk factors
+  allowed_roles:
+  - underwriter
+  - admin
+- name: uw_predict_loan_approval
+  description: Run predictive ML model on a loan application (returns unavailable when model not configured)
+  allowed_roles:
+  - underwriter
+  - admin
+- name: uw_save_risk_assessment
+  description: Save a completed risk assessment to the database with audit trail
+  allowed_roles:
+  - underwriter
+  - admin
+- name: uw_preliminary_recommendation
+  description: Generate a preliminary underwriting recommendation (Approve/Conditions/Suspend/Deny)
+  allowed_roles:
+  - underwriter
+  - admin
+- name: compliance_check
+  description: Run compliance checks (ECOA, ATR/QM, TRID) on an application
+  allowed_roles:
+  - underwriter
+  - admin
+- name: product_info
+  description: Retrieve available mortgage product information
+  allowed_roles:
+  - borrower
+  - loan_officer
+  - underwriter
+  - ceo
+  - admin
+- name: affordability_calc
+  description: Calculate affordability estimate given income, debts, and down payment
+  allowed_roles:
+  - borrower
+  - loan_officer
+  - underwriter
+  - ceo
+  - admin
+- name: kb_search
+  description: Search the compliance knowledge base for regulatory guidance
+  allowed_roles:
+  - loan_officer
+  - underwriter
+  - admin
+- name: uw_issue_condition
+  description: Issue a new underwriting condition on an application
+  allowed_roles:
+  - underwriter
+  - admin
+- name: uw_review_condition
+  description: Move a condition from RESPONDED to UNDER_REVIEW
+  allowed_roles:
+  - underwriter
+  - admin
+- name: uw_clear_condition
+  description: Clear a condition after reviewing the borrower's response
+  allowed_roles:
+  - underwriter
+  - admin
+- name: uw_waive_condition
+  description: Waive a condition (PRIOR_TO_CLOSING/FUNDING only, requires rationale)
+  allowed_roles:
+  - underwriter
+  - admin
+- name: uw_return_condition
+  description: Return a condition to the borrower with a note about what's missing
+  allowed_roles:
+  - underwriter
+  - admin
+- name: uw_condition_summary
+  description: Get a summary of condition counts by status for an application
+  allowed_roles:
+  - underwriter
+  - admin
+- name: uw_render_decision
+  description: 'Two-phase decision tool: propose (default) then confirm after underwriter approval'
+  allowed_roles:
+  - underwriter
+  - admin
+- name: uw_draft_adverse_action
+  description: Draft an ECOA/FCRA adverse action notice for a denied application
+  allowed_roles:
+  - underwriter
+  - admin
+- name: uw_generate_le
+  description: Generate a simulated Loan Estimate with loan terms and closing costs
+  allowed_roles:
+  - underwriter
+  - admin
+- name: uw_generate_cd
+  description: Generate a simulated Closing Disclosure (requires all conditions cleared)
+  allowed_roles:
+  - underwriter
+  - admin
+model_routing:
+  strategy: per_query
+data_access:
+  scope: full_pipeline
+  tables:
+  - applications
+  - documents
+  - conditions
+  - decisions
+  - application_financials

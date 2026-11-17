@@ -1,0 +1,1 @@
+For a standalone synthetic example, use your external risk tools to calculate DTI and LTV and evaluate credit risk: monthly income $8,500, monthly debts $2,400, loan amount $320,000, property value $400,000, and self-reported credit score 742. Give the three values and their risk ratings. Do not make a lending decision or look up an application.
